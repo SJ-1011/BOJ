@@ -1,37 +1,51 @@
-import sys
 from collections import deque
+import sys
+sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
-N, M, V = map(int, input().split())
-graph = {i: [] for i in range(1, N + 1)}
-
-for _ in range(M):
-    a, b = map(int, input().split())
+n, m, v = map(int, input().split(' '))
+graph = [[] for _ in range(n+1)]
+for _ in range(m):
+    a, b = map(int, input().split(' '))
     graph[a].append(b)
     graph[b].append(a)
 
-def dfs(start, graph, visited=None):
-    if visited is None:
-        visited = set()
-    visited.add(start)
-    result = [start]
-    for next_node in sorted(graph[start]):
-        if next_node not in visited:
-            result.extend(dfs(next_node, graph, visited))
-    return result
+for i in range(1, n+1):
+    graph[i].sort()
 
-def bfs(start, graph):
-    queue = deque([start])
-    visited = set([start])
-    result = [start]
-    while queue:
-        node = queue.popleft()
-        for next_node in sorted(graph[node]):
-            if next_node not in visited:
-                visited.add(next_node)
-                queue.append(next_node)
-                result.append(next_node)
-    return result
+visited_bfs = [False] * (n + 1)
+visited_dfs = [False] * (n + 1)
 
-print(*dfs(V, graph))
-print(*bfs(V, graph))
+def bfs(start):
+    ans = [start]
+    q = deque()
+    q.append(start)
+    visited_bfs[start] = True
+    
+    while q:
+        cv = q.popleft()
+        for nxt in graph[cv]:
+            if visited_bfs[nxt] == False:
+                q.append(nxt)
+                ans.append(nxt)
+                visited_bfs[nxt] = True
+    
+    return ans
+
+ans_dfs = []
+def dfs(start):
+    visited_dfs[start] = True
+    ans_dfs.append(start)
+    for nxt in graph[start]:
+        if visited_dfs[nxt] == False:
+            dfs(nxt)
+
+dfs(v)
+ans_bfs = bfs(v)
+
+for i in range(len(ans_dfs)):
+    print(ans_dfs[i], end=' ')
+
+print()
+for i in range(len(ans_bfs)):
+    print(ans_bfs[i], end=' ')
