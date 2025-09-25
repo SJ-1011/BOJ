@@ -1,23 +1,10 @@
 import sys
 input = sys.stdin.readline
-A = list(map(int, input().split(' ')))
+A = input().strip()
 
-asc, des = True, True
-
-
-for i in range(8):
-    if A[i] != i + 1:
-        asc = False
-        break
-
-for i in range(8):
-    if A[i] != 8 - i:
-        des = False
-        break
-
-if asc == True:
+if A == '1 2 3 4 5 6 7 8':
     print('ascending')
-elif des == True:
+elif A == '8 7 6 5 4 3 2 1':
     print('descending')
 else:
     print('mixed')
