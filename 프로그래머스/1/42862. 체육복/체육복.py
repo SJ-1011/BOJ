@@ -1,20 +1,13 @@
 def solution(n, lost, reserve):
-    answer = 0
-
-    for i in range(1, n + 1):
-        if i in lost and i in reserve:
-            lost.remove(i)
-            reserve.remove(i)
     
-    for i in range(1, n + 1):
-        if i in lost:
-            if i - 1 > 0 and i - 1 in reserve:
-                answer += 1
-                reserve.remove(i - 1)
-            elif i + 1 <= n and i + 1 in reserve:
-                answer += 1
-                reserve.remove(i + 1)
-        else:
-            answer += 1
-            
+    lost_only = [x for x in lost if x not in reserve]
+    reserve_only = [x for x in reserve if x not in lost]
+
+    for r in sorted(reserve_only):
+        if r-1 in lost_only:
+            lost_only.remove(r-1)
+        elif r+1 in lost_only:
+            lost_only.remove(r+1)
+    
+    answer = n - len(lost_only)
     return answer
