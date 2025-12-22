@@ -1,6 +1,4 @@
 #include <iostream>
-#include <string>
-
 using namespace std;
 
 int main() {
@@ -10,91 +8,22 @@ int main() {
     int month, date;
     cin >> month >> date;
 
-    int ans = 0;
+    int daysInMonth[] = {
+        31, 28, 31, 30, 31, 30,
+        31, 31, 30, 31, 30, 31
+    };
 
-    ans += date;
+    string dayOfWeek[] = {
+        "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"
+    };
 
-    for (int i = 0; i < month; i++) {
-        switch (i)
-        {
-        case 0:
-            break;
-            
-        case 1:
-            ans += 31;
-            break;
-            
-        case 2:
-            ans += 28;
-            break;
-            
-        case 3:
-            ans += 31;
-            break;
-            
-        case 4:
-            ans += 30;
-            break;
-            
-        case 5:
-            ans += 31;
-            break;
-            
-        case 6:
-            ans += 30;
-            break;
-            
-        case 7:
-            ans += 31;
-            break;
-            
-        case 8:
-            ans += 31;
-            break;
-            
-        case 9:
-            ans += 30;
-            break;
-            
-        case 10:
-            ans += 31;
-            break;
-            
-        case 11:
-            ans += 30;
-            break;
-        
-        default:
-            break;
-        }
+    int total = date;
+
+    for (int i = 0; i < month - 1; i++) {
+        total += daysInMonth[i];
     }
 
-    ans = ans % 7;
-    switch (ans)
-    {
-    case 1:
-        cout << "MON";
-        break;
-    case 2:
-        cout << "TUE";
-        break;
-    case 3:
-        cout << "WED";
-        break;
-    case 4:
-        cout << "THU";
-        break;
-    case 5:
-        cout << "FRI";
-        break;
-    case 6:
-        cout << "SAT";
-        break;
-    
-    default:
-        cout << "SUN";
-        break;
-    }
+    cout << dayOfWeek[total % 7] << '\n';
 
     return 0;
 }
